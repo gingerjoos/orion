@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<title>{% block title %}Orion{% endblock title %}</title>
+  	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+	{% block extra_head %}
+	{% endblock extra_head %}
+  </head>
+
+  <body>
+
+  	<div class="container-fluid">
+
+  		<!-- navbar -->
+  		<div class="navbar navbar-fixed-top">
+  			<div class="navbar-inner">
+  				<div class="container">
+  					<a class="brand" href="/">Orion</a>
+  					<div class="nav-collapse">
+  						<ul class="nav">
+  							<li class="active"><a href="#">Home</a></li>
+  							<li><a href="pg/about" title="About">About</a></li>
+  							<li><a href="pg/faq" title="FAQ">FAQ</a></li>
+  						</ul>
+  					</div>
+  				</div>
+  			</div>
+  		</div>
+
+  		<div style="padding-top:10%"></div>
+
+		<!-- content -->
+		{% block content %}
+		{% endblock content %}
+
+  	</div>
+
+  </body>
+
+</html>
