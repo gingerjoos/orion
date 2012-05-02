@@ -1,5 +1,24 @@
 {% extends "master.html" %}
+{% block extra_head %}
+	<style type="text/css">
+		.form-separator { padding:1%; }
+		.text-center { text-align:center }
+	</style>
+{% endblock extra_head %}
 {% block title %}Torrent tracker check - {{ super() }}{% endblock %}
 {% block content %}
-TEST
-{% endblock %}
+			<div id="torr-form" class="text-center">
+				<form id="torr-url" class="form-inline" method="POST">
+					<h3>Enter the URL of the torrent file</h3>
+					<input type="text" name="torrent_url" placeholder="eg. http://example.org/file.torrent" />
+					<input type="submit" name="submitbtn-url" value="Check" class="btn btn-primary" />
+				</form>
+				<h3 class="form-separator">OR</h3>
+				<form id="torr-file" class="form-inline" method="POST" enctype="multipart/form-data" action="">
+					<h3>Upload the torrent file</h3>
+					<i class="icon-upload"></i>
+					<input type="file" name="torrent_file" accept="application/x-bittorrent" />
+					<input type="submit" name="submitbtn-file" value="Check" class="btn btn-primary"  />
+				</form>
+			</div>
+{% endblock content %}
