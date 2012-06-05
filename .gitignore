@@ -12,3 +12,6 @@ _ReSharper.*
 
 #Py compiled files
 *.pyc
+
+#virtualenv
+env
