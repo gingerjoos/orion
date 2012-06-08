@@ -4,18 +4,44 @@ import Queue
 
 class Fetcher(threading.Thread):
 
-    def __init__(self,queue,out_queue):
+    def __init__(self,inQ,outQ):
         super(Fetcher,self).__init__()
-        self.queue = queue
-        self.out_queue = out_queue
+        self.inQ = inQ
+        self.outQ = outQ
 
     def run(self):
-        print self.getName()
+        print "starting to run " + self.getName()
+        data = None
         try:
-            url = self.queue.get()
-            response = urllib2.urlopen(url)
+            url = self.inQ.get()
+            print self.getName() + " starting to fetch URL : " + url
+            response = urllib2.urlopen(url,None,10)
             data = response.read()
         except urllib2.URLError:
-            pass
+            print "URL Error"
         except urllib2.HTTPError:
-            pass
+            print "HTTP Error"
+
+        qData = {'url':url,'data':data}
+        self.outQ.put(qData)
+        self.inQ.task_done()
+
+inQ = Queue.Queue()
+outQ = Queue.Queue()
+
+urls = ['https://api.twitter.com/1/statuses/user_timeline.json?screen_name=gingerjoos&include_rts=true','http://pipes.yahoo.com/pipes/pipes.popular?_out=json']
+for i in range(2):
+    fetcher = Fetcher(inQ,outQ)
+    fetcher.setDaemon(True)
+    fetcher.start()
+
+for url in urls:
+    inQ.put(url)
+
+inQ.join()
+for i in range(2):
+    print outQ.get()
+    outQ.task_done()
+#outQ.join()
+
+#print outQ
