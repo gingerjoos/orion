@@ -26,6 +26,12 @@ class Fetcher(threading.Thread):
         self.outQ.put(qData)
         self.inQ.task_done()
 
+def get_urls(urls):
+    no_of_urls = len(urls)
+    # TODO : spawn no_of_urls no. of Fetchers
+    # TODO : insert into queue
+    # TODO : read from queue
+
 inQ = Queue.Queue()
 outQ = Queue.Queue()
 

@@ -15,6 +15,7 @@ def hello():
     if request.method == 'POST':
         try:
             uploaded_file = request.files['torrent_file']
+            # TODO : change this
             temp_filename = '/tmp/file.torrent'
             uploaded_file.save(temp_filename)
             torrent = read_torrent_file(temp_filename)

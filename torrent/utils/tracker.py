@@ -66,10 +66,12 @@ def get_peer_count(tracker,info_hash):
             'interval' : decoded_response['interval'],}
     return peer_count
 
-def get_tracker_info(torrent):
-    torrent_info = parse_torrent(torrent)
+def get_tracker_info(torrent_info):
     trackers = torrent_info['trackers']
-    tracker_info = []
-    for tracker in trackers:
-        tracker_info.append(get_peer_count(tracker,torrent_info['info_hash']))
-    return tracker_info
+    tracker_responses = get_urls(trackers)
+    # TODO : parse the responses
+
+def get_torrent_info(torrent):
+    torrent_info = parse_torrent(torrent)
+    tracker_info = get_tracker_info
+    return {'tracker_info':tracker_info}
