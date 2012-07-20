@@ -21,19 +21,20 @@
 					<input type="submit" name="submitbtn-file" value="Check" class="btn btn-primary"  />
 				</form>
 			</div>
-
-			<div class="span8 offset2">
-				<div class="row">
-					<div class="span4"><strong>Trackers</strong></div>
-					<div class="span2"><strong>Seeders</strong></div>
-					<div class="span2"><strong>Leachers</strong></div>
-				</div>
-				{% for tracker_info in info %}
+            {% if tracker_info is defined %}
+				<div class="span8 offset2">
 					<div class="row">
-					  <div class="span4">{{ tracker_info['tracker'] }}</div>
-					  <div class="span2">{{ tracker_info['seeders'] }}</div>
-					  <div class="span2">{{ tracker_info['leachers'] }}</div>
+						<div class="span4"><strong>Trackers</strong></div>
+						<div class="span2"><strong>Seeders</strong></div>
+						<div class="span2"><strong>Leachers</strong></div>
 					</div>
-				{% endfor %}
-			</div>
+					{% for tracker_info in info %}
+						<div class="row">
+						  <div class="span4">{{ tracker_info['tracker'] }}</div>
+						  <div class="span2">{{ tracker_info['seeders'] }}</div>
+						  <div class="span2">{{ tracker_info['leachers'] }}</div>
+						</div>
+					{% endfor %}
+	            </div>
+            {% endif %}
 {% endblock content %}

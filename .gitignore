@@ -15,3 +15,6 @@ _ReSharper.*
 
 #virtualenv
 env
+
+# vim files
+*un~
