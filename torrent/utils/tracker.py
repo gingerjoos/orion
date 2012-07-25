@@ -7,6 +7,7 @@ import urllib
 # modified from http://nchachra.wordpress.com/2011/10/19/118/
 
 def parse_torrent(torrent):
+    ''' parse the torrent string and convert it to a dict '''
     decoded = bencode.bdecode(torrent)
     info = decoded['info']
     decoded_announce = decoded['announce']
@@ -48,7 +49,12 @@ def get_peer_count(tracker,info_hash):
     peer_id = urllib.quote_plus(rand_str)
     info_hash = urllib.quote_plus(info_hash)
 
-    url = tracker + "?info_hash=" + info_hash + "&peer_id=" + peer_id + "&port=9999&uploaded=0&downloaded=0&left=0&numwant=10&compact=1"
+    url = tracker 
+          + "?info_hash=" 
+          + info_hash 
+          + "&peer_id=" 
+          + peer_id 
+          + "&port=9999&uploaded=0&downloaded=0&left=0&numwant=10&compact=1"
 
     try:
         response = urllib2.urlopen(url).read()
@@ -66,12 +72,21 @@ def get_peer_count(tracker,info_hash):
             'interval' : decoded_response['interval'],}
     return peer_count
 
+def torrent_to_tracker_queries(torrent_info):
+    ''' read torrent string. return the list of tracker URLs to query for info '''
+    pass
+
+def parse_tracker_responses(tracker_responses):
+    ''' read list of tracker_responses, return parsed info '''
+    pass
+
 def get_tracker_info(torrent_info):
-    trackers = torrent_info['trackers']
-    tracker_responses = get_urls(trackers)
-    # TODO : parse the responses
+    tracker_queries = torrent_to_tracker_queries(torrent_info)
+    tracker_responses = get_urls(tracker_queries)
+    tracker_info = parse_tracker_responses(tracker_responses)
+    return tracker_info
 
 def get_torrent_info(torrent):
-    torrent_info = parse_torrent(torrent)
-    tracker_info = get_tracker_info
+    parsed_torrent = parse_torrent(torrent)
+    tracker_info = get_tracker_info(parsed_torrent)
     return {'tracker_info':tracker_info}

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import render_template
-from utils.tracker import read_torrent_url,read_torrent_file,get_tracker_info
+from utils.tracker import read_torrent_url,read_torrent_file,get_torrent_info
 from os import getcwd
 app = Flask(__name__)
 
@@ -27,8 +27,8 @@ def hello():
                 torrent = read_torrent_url(url)
             except:
                 pass
-        tracker_info = get_tracker_info(torrent)
-    return render_template('index.html',info = tracker_info)
+        torrent_info = get_torrent_info(torrent)
+    return render_template('index.html',info = torrent_info)
 
 @app.route("/pg/<view_file>")
 def static_page(view_file='about'):
