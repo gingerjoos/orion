@@ -11,7 +11,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/",methods=['GET','POST'])
 def hello():
-    tracker_info = None
+    torrent_info = None
     if request.method == 'POST':
         try:
             uploaded_file = request.files['torrent_file']

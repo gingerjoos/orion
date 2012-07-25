@@ -3,6 +3,7 @@ from hashlib import sha1
 import random
 import urllib2
 import urllib
+from torrent.utils.url_fetcher import get_urls
 
 # modified from http://nchachra.wordpress.com/2011/10/19/118/
 
@@ -49,12 +50,12 @@ def get_peer_count(tracker,info_hash):
     peer_id = urllib.quote_plus(rand_str)
     info_hash = urllib.quote_plus(info_hash)
 
-    url = tracker 
-          + "?info_hash=" 
-          + info_hash 
-          + "&peer_id=" 
-          + peer_id 
-          + "&port=9999&uploaded=0&downloaded=0&left=0&numwant=10&compact=1"
+    url = ( tracker
+          + "?info_hash="
+          + info_hash
+          + "&peer_id="
+          + peer_id
+          + "&port=9999&uploaded=0&downloaded=0&left=0&numwant=10&compact=1" )
 
     try:
         response = urllib2.urlopen(url).read()

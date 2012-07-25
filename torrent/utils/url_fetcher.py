@@ -36,6 +36,7 @@ class SingleFetcher():
 
 class Fetcher():
     def start(url):
+        pass
 
 #inQ = Queue.Queue()
 #outQ = Queue.Queue()
