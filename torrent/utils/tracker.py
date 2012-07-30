@@ -75,11 +75,43 @@ def get_peer_count(tracker,info_hash):
 
 def torrent_to_tracker_queries(torrent_info):
     ''' read torrent string. return the list of tracker URLs to query for info '''
-    pass
+    # generate the peer_id
+    rand_str = '-LT0160-'
+    for i in range(12):
+        rand_str = rand_str + chr(random.randint(0,255))
+    peer_id = urllib.quote_plus(rand_str)
+    info_hash = urllib.quote_plus(torrent_info['info_hash'])
+
+    query_params = ( "?info_hash="
+          + info_hash
+          + "&peer_id="
+          + peer_id
+          + "&port=9999&uploaded=0&downloaded=0&left=0&numwant=10&compact=1" )
+
+    tracker_queries = []
+    for tracker in torrent_info['trackers']:
+        url = tracker + query_params
+        tracker_queries.append(url)
+    return tracker_queries
 
 def parse_tracker_responses(tracker_responses):
     ''' read list of tracker_responses, return parsed info '''
-    pass
+    peer_counts = []
+    for response in tracker_responses:
+        decoded_response = None
+        try:
+            decoded_response = bencode.bdecode(response)
+            decoded_response['complete']
+        except Exception:
+            #TODO ?
+            peer_count = decoded_response
+        else:
+            peer_count = {'tracker' : tracker,
+                'seeders'  : decoded_response['complete'],
+                'leachers' : decoded_response['incomplete'],
+                'interval' : decoded_response['interval'],}
+            peer_counts.append(peer_count)
+        return peer_counts
 
 def get_tracker_info(torrent_info):
     tracker_queries = torrent_to_tracker_queries(torrent_info)

@@ -18,3 +18,4 @@ env
 
 # vim files
 *un~
+*.swp

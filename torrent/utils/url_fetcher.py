@@ -22,8 +22,9 @@ class SingleFetcher():
     def __init__(self,url):
         self.url = url
 
-    error = True
     def run(self):
+        error = False
+        data = None
         try:
             response = urllib2.urlopen(self.url,None,10)
             data = response.read()
@@ -31,12 +32,27 @@ class SingleFetcher():
             error = True
         except urllib2.HTTPError:
             error = True
-
         qData = {'url':self.url,'text':data,'error':error}
+        return qData
 
 class Fetcher():
-    def start(url):
-        pass
+    def start(urls):
+        if(isinstance(urls)):
+            fetcher = SingleFetcher(urls)
+            response = fetcher.run()
+            return response
+        else:
+            inQ = Queue.Queue()
+            outQ = Queue.Queue()
+            fetcher = ThreadedFetcher(inQ,outQ)
+            for url in urls:
+                inQ.put(url)
+            inQ.join()
+            responses = []
+            for i in range(len(urls)):
+                responses.append(outQ.get())
+                #outQ.task_done()
+            return responses
 
 #inQ = Queue.Queue()
 #outQ = Queue.Queue()
@@ -58,6 +74,7 @@ class Fetcher():
 ##print outQ
 
 def get_urls(urls):
+    print urls
     no_of_urls = len(urls)
     inQ = Queue.Queue()
     outQ = Queue.Queue()
@@ -79,6 +96,6 @@ def get_urls(urls):
     for i in range(no_of_urls):
         response = outQ.get()
         outQ.task_done()
-        result.append(response)
+        results.append(response)
 
-    return result
+    return results
